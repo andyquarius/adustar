@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Adustar</title>
+<meta name="description" content="Not another parasite agency. By artists, for artists. 18+ only.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Shadows+Into+Light&family=Cinzel:wght@700&family=Anton&family=Caveat+Brush&family=Jost:wght@400;500&display=swap">
+<style>
+/* Layout: one full-screen dressing-room stage (wipe the fogged mirror), then a quiet sign-up band. */
+:root{
+  color-scheme: dark;
+  --ink:#0B0908;
+  --ink-2:#15110F;
+  --cream:#FFF4EE;
+  --muted:#CDBFB4;
+  --line:rgba(255,244,238,.22);
+  --red:#D7193B;
+  --lip:#C8102E;
+  --glow:255,192,128;
+  --display:'Anton', Impact, 'Arial Narrow Bold', sans-serif;
+  --hand:'Caveat Brush', 'Segoe Print', 'Bradley Hand', cursive;
+  --ui:'Jost', 'Helvetica Neue', Arial, sans-serif;
+  --gutter-l:max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r:max(16px, env(safe-area-inset-right, 0px));
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--cream);font-family:var(--ui);-webkit-font-smoothing:antialiased}
+a{color:var(--cream)}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+
+/* ---------- STAGE ---------- */
+.stage{position:relative;height:100vh;height:100svh;min-height:520px;overflow:hidden;background:var(--ink)}
+.bg{position:absolute;left:0;top:0;max-width:none;display:block;user-select:none;-webkit-user-drag:none;z-index:1}
+.glass{position:absolute;z-index:1;pointer-events:none;background:rgba(8,5,3,.52);filter:blur(6px);border-radius:4px}
+.bulbs{position:absolute;inset:0;z-index:1;pointer-events:none}
+.bulb{position:absolute;transform:translate(-50%,-50%);pointer-events:none}
+.bulb .off{position:absolute;inset:-12%;border-radius:50%;opacity:0;background:radial-gradient(closest-side, rgba(30,17,8,.94), rgba(30,17,8,.8) 62%, rgba(30,17,8,0))}
+.bulb .on{position:absolute;left:50%;top:50%;width:420%;height:420%;transform:translate(-50%,-50%);border-radius:50%;opacity:.22;mix-blend-mode:screen;background:radial-gradient(closest-side, rgba(255,214,150,.6), rgba(255,178,96,.16) 48%, rgba(255,178,96,0));animation:breathe var(--bd,5s) ease-in-out infinite}
+.bulb.dying .on{animation:none}
+@keyframes breathe{0%,100%{opacity:.16}50%{opacity:.3}}
+.mirror{position:absolute;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--m) * .034px);pointer-events:none;text-align:center}
+.logo{display:inline-flex;flex-direction:column;align-items:flex-start;font-family:var(--display);font-weight:400;font-size:calc(var(--m) * .165px);line-height:.92;color:var(--cream);text-shadow:0 0 calc(var(--m) * .045px) rgba(var(--glow),.55);mix-blend-mode:screen;margin:0}
+.logo .row{display:flex;align-items:flex-start;gap:.1em}
+.logo svg{width:.4em;height:.38em;margin-top:.07em;overflow:visible;filter:drop-shadow(0 0 .12em rgba(215,25,59,.75))}
+.headline{margin:0;font-family:var(--display);font-weight:400;font-size:calc(var(--m) * .06px);line-height:1.08;letter-spacing:.03em;color:var(--cream);mix-blend-mode:screen;text-transform:uppercase}
+.parasite{position:relative;display:inline-block}
+.parasite svg{position:absolute;left:-7%;top:-5%;width:114%;height:110%;overflow:visible;filter:url(#wax)}
+.parasite path{fill:none;stroke:var(--lip);stroke-width:calc(var(--m) * .016px);stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:0}
+.lip{position:relative;display:flex;flex-direction:column;align-items:flex-start;font-family:'Shadows Into Light', 'Bradley Hand', cursive;font-size:calc(var(--m) * .135px);line-height:1.02;letter-spacing:.01em;-webkit-text-stroke:.025em currentColor;color:var(--lip);transform:rotate(-6deg);filter:url(#wax);margin-top:calc(var(--m) * .005px)}
+.kiss{position:absolute;right:3%;top:2%;width:calc(var(--m) * .24px);max-width:28%;height:auto;transform:rotate(16deg);opacity:.92}
+.lip span{display:block;padding:0 .08em;clip-path:inset(-30% -5% -30% 0)}
+.lip span + span{margin-left:1.05em}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;margin:0}
+
+.flash{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;mix-blend-mode:screen;background:radial-gradient(90% 75% at var(--fx,50%) var(--fy,40%), rgba(255,226,186,.9), rgba(255,196,130,.28) 42%, rgba(0,0,0,0) 72%)}
+.fog{position:absolute;inset:0;z-index:4;width:100%;height:100%;touch-action:none;cursor:crosshair;transition:opacity 1s ease}
+.sparks{position:absolute;inset:0;z-index:5;width:100%;height:100%;pointer-events:none}
+.hazev{position:absolute;inset:0;z-index:5;width:100%;height:100%;max-width:none;object-fit:cover;pointer-events:none;mix-blend-mode:screen;opacity:0;transition:opacity 1.2s ease}
+.hazev.on{opacity:1}
+.haze{position:absolute;inset:0;z-index:5;pointer-events:none;overflow:hidden;display:none;mix-blend-mode:screen}
+.hz{position:absolute;inset:-12% -8%;width:116%;height:124%;max-width:none;object-fit:cover;mix-blend-mode:screen;opacity:0;will-change:transform,opacity}
+.hz-b{transform:scaleX(-1)}
+.stage.revealed .haze{display:block}
+.stage.revealed .hz-a{animation:hazeA 6.2s cubic-bezier(.25,.6,.35,1) forwards}
+.stage.revealed .hz-b{animation:hazeB 7s cubic-bezier(.25,.6,.35,1) .15s forwards}
+@keyframes hazeA{0%{opacity:0;transform:translateY(16%) scale(1.02)}9%{opacity:1}45%{opacity:.8}100%{opacity:0;transform:translateY(-12%) scale(1.22)}}
+@keyframes hazeB{0%{opacity:0;transform:scaleX(-1) translate(6%,22%) scale(1.1)}12%{opacity:.85}50%{opacity:.5}100%{opacity:0;transform:scaleX(-1) translate(-5%,-8%) scale(1.35)}}
+
+.topbar{position:absolute;z-index:6;left:0;right:0;top:0;display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:calc(env(safe-area-inset-top, 0px) + 18px);padding-left:var(--gutter-l);padding-right:var(--gutter-r);font-size:11px;font-weight:500;letter-spacing:.32em;color:var(--muted);pointer-events:none;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+.hint{position:absolute;z-index:6;left:50%;bottom:calc(env(safe-area-inset-bottom, 0px) + 28px);transform:translateX(-50%);display:flex;align-items:center;gap:14px;padding:13px 22px;border:1px solid var(--line);border-radius:999px;background:rgba(11,9,8,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);font-size:12px;font-weight:500;letter-spacing:.3em;white-space:nowrap;pointer-events:none;transition:opacity .6s ease}
+.hint .track{position:relative;width:34px;height:2px;background:var(--line);border-radius:2px}
+.hint .dot{position:absolute;top:-4px;left:0;width:10px;height:10px;border-radius:50%;background:var(--cream);animation:swipe 1.8s ease-in-out infinite}
+@keyframes swipe{0%,100%{transform:translateX(0)}50%{transform:translateX(24px)}}
+.skip{position:absolute;z-index:6;right:calc(var(--gutter-r) + 4px);bottom:calc(env(safe-area-inset-bottom, 0px) + 32px);min-height:44px;padding:0 6px;background:none;border:0;color:var(--muted);font:500 11px var(--ui);letter-spacing:.24em;text-transform:uppercase;cursor:pointer;transition:opacity .6s ease}
+.skip:hover{color:var(--cream)}
+.cue{position:absolute;z-index:6;left:50%;bottom:calc(env(safe-area-inset-bottom, 0px) + 26px);transform:translateX(-50%);display:inline-flex;flex-direction:column;align-items:center;gap:8px;min-height:44px;padding:6px 12px;text-decoration:none;font-size:11px;font-weight:500;letter-spacing:.32em;color:var(--cream);white-space:nowrap}
+.cue svg{animation:bob 1.8s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+
+/* hidden-until-reveal (only when JS runs; without JS everything shows) */
+.js .stage:not(.revealed) .logo{opacity:0;transform:scale(.9);filter:blur(8px)}
+.js .stage:not(.revealed) .headline{opacity:0;transform:translateY(.5em)}
+.js .stage:not(.revealed) .parasite path{stroke-dashoffset:1}
+.js .stage:not(.revealed) .lip span{clip-path:inset(-30% 100% -30% 0)}
+.js .stage:not(.revealed) .kiss{opacity:0;transform:rotate(16deg) scale(1.3)}
+.js .stage:not(.revealed) .cue{opacity:0;pointer-events:none}
+.js .stage:not(.revealed) .flash{opacity:0}
+.no-js .fog,.no-js .hint,.no-js .skip{display:none}
+
+/* the reveal sequence */
+.stage.revealed .fog{opacity:0;pointer-events:none}
+.stage.revealed .hint,.stage.revealed .skip{opacity:0;pointer-events:none}
+.stage.revealed .bg{animation:flare 1.9s ease-out}
+.stage.revealed .flash{animation:flash 1.5s ease-out}
+.stage.revealed .logo{transition:opacity 1s ease .12s, transform 1.4s cubic-bezier(.2,.8,.2,1) .12s, filter 1s ease .12s}
+.stage.revealed .headline{transition:opacity .9s ease 1.5s, transform .9s cubic-bezier(.2,.8,.2,1) 1.5s}
+.stage.revealed .parasite path{transition:stroke-dashoffset .55s cubic-bezier(.6,0,.4,1) 2.7s}
+.stage.revealed .lip span:nth-child(1){transition:clip-path 1.2s cubic-bezier(.42,.08,.45,1) 1.5s}
+.stage.revealed .lip span:nth-child(2){transition:clip-path 1.3s cubic-bezier(.42,.08,.45,1) 2.85s}
+.stage.revealed .kiss{transition:opacity .22s ease-out 4.35s, transform .3s cubic-bezier(.3,1.4,.5,1) 4.35s}
+.stage.revealed .cue{transition:opacity .8s ease 5.2s}
+@keyframes flare{0%{filter:brightness(1)}14%{filter:brightness(1.85) saturate(1.15)}100%{filter:brightness(1)}}
+@keyframes flash{0%{opacity:0}12%{opacity:1}100%{opacity:0}}
+.stage.instant *, .stage.instant{transition:none !important;animation:none !important}
+
+/* ---------- JOIN ---------- */
+.join{background:var(--ink-2);border-top:1px solid rgba(255,244,238,.08);padding-block:clamp(64px, 10vw, 128px);padding-left:var(--gutter-l);padding-right:var(--gutter-r)}
+.join .wrap{max-width:1120px;margin:0 auto;display:flex;flex-wrap:wrap;gap:clamp(36px, 6vw, 88px);align-items:flex-end}
+.join h2{flex:1 1 420px;margin:0;font-family:var(--display);font-weight:400;font-size:clamp(44px, 6.4vw, 92px);line-height:.96;text-transform:uppercase;text-wrap:balance}
+.join h2 em{font-style:normal;color:var(--red)}
+.join .side{flex:1 1 340px;min-width:0;display:flex;flex-direction:column;gap:22px}
+.join p{margin:0;max-width:44ch;font-size:clamp(16px, 1.5vw, 18px);line-height:1.6;color:var(--muted)}
+form{display:flex;flex-wrap:wrap;gap:10px}
+label.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+input[type=email]{flex:1 1 220px;min-width:0;height:54px;padding:0 18px;background:transparent;border:1.5px solid rgba(255,244,238,.3);border-radius:0;color:var(--cream);font:400 17px var(--ui)}
+input[type=email]::placeholder{color:#9D918A}
+button.go{height:54px;padding:0 26px;background:var(--red);color:#fff;border:0;font:500 13px var(--ui);letter-spacing:.24em;cursor:pointer}
+button.go:hover{background:#B8122F}
+.note{font-size:13px !important;letter-spacing:.06em}
+.note.ok{color:var(--cream) !important}
+footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-block:22px 28px;padding-left:var(--gutter-l);padding-right:var(--gutter-r);background:var(--ink-2);font-size:12px;letter-spacing:.14em;color:#9D918A}
+
+.dim{position:absolute;inset:0;z-index:5;background:#000;opacity:0;pointer-events:none}
+
+/* ---------- THE MARK (pinned scroll scene) ---------- */
+.scene{position:relative;height:340vh;height:340svh;background:#000}
+.pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:#000}
+.sbg{position:absolute;left:0;top:0;max-width:none;display:block;user-select:none;-webkit-user-drag:none}
+.dust{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;mix-blend-mode:screen}
+.dancer{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;mix-blend-mode:screen}
+.xglow{position:absolute;pointer-events:none;border-radius:50%;opacity:0;mix-blend-mode:screen;background:radial-gradient(closest-side, rgba(255,40,70,.75), rgba(215,25,59,.35) 45%, rgba(215,25,59,0) 100%);transform:translate(-50%,-50%)}
+.scrim{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top, rgba(0,0,0,.86) 0%, rgba(0,0,0,.55) 30%, rgba(0,0,0,0) 52%)}
+.dark{position:absolute;inset:0;background:#000;pointer-events:none}
+.flick{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none}
+.flick.run{animation:flick .75s steps(1,end) 1}
+@keyframes flick{0%{opacity:1}12%{opacity:.1}22%{opacity:.85}34%{opacity:0}48%{opacity:.6}60%{opacity:0}74%{opacity:.3}100%{opacity:0}}
+.beats{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom, 0px) + 7vh);padding-left:var(--gutter-l);padding-right:var(--gutter-r);display:grid}
+.beats > *{grid-area:1/1;margin:0}
+.beat-a{align-self:end;display:flex;flex-direction:column;gap:.2em}
+.beat-a h2,.beat-a p{margin:0;font-family:var(--display);font-weight:400;text-transform:uppercase;line-height:.95;font-size:clamp(42px, 11.5vw, 104px);text-wrap:balance}
+.beat-a h2{color:var(--cream);text-shadow:0 2px 24px rgba(0,0,0,.7)}
+.beat-a p{color:var(--red);text-shadow:0 0 28px rgba(215,25,59,.55)}
+.beat-b{align-self:end;display:flex;flex-direction:column;gap:18px;max-width:34em}
+.beat-b p{margin:0;font-size:clamp(17px, 4.4vw, 21px);line-height:1.5;color:var(--muted)}
+.beat-b .big{font-family:var(--display);font-size:clamp(30px, 8.4vw, 52px);line-height:1;text-transform:uppercase;color:var(--cream)}
+.beat-b .big em{font-style:normal;color:var(--red)}
+.js .beat-a h2,.js .beat-a p,.js .beat-b > *{opacity:0;will-change:opacity,transform}
+@media (min-aspect-ratio: 1/1) and (min-width: 860px){
+  .scrim{background:linear-gradient(to right, rgba(0,0,0,.85) 0%, rgba(0,0,0,.55) 30%, rgba(0,0,0,0) 50%)}
+  .beats{right:auto;top:0;bottom:0;width:min(560px, 40vw);padding-left:max(6vw, env(safe-area-inset-left, 0px));align-content:center}
+  .beat-a,.beat-b{align-self:center}
+  .beat-a h2,.beat-a p{font-size:clamp(52px, 5.6vw, 96px)}
+  .beat-b .big{font-size:clamp(34px, 3.4vw, 54px)}
+  .beat-b p{font-size:clamp(17px, 1.35vw, 20px)}
+}
+
+/* ---------- THE DOOR (sign-up) ---------- */
+.door{position:relative;height:100vh;height:100svh;min-height:660px;overflow:hidden;background:#3A0710}
+.dbg{position:absolute;left:0;top:0;max-width:none;display:block;user-select:none;-webkit-user-drag:none;transition:filter 1.4s ease}
+.plate{position:absolute;display:flex;align-items:center;justify-content:center;pointer-events:none}
+#plateText{font-family:'Cinzel', 'Trajan Pro', Georgia, serif;font-weight:700;letter-spacing:.08em;line-height:1;white-space:nowrap;text-transform:uppercase;color:rgba(62,40,8,.88);text-shadow:0 1px 0 rgba(255,236,190,.6), 0 -1px 0 rgba(30,18,4,.35);transition:opacity .3s ease}
+#plateText.empty{opacity:.3}
+.light{position:absolute;bottom:0;width:0;opacity:0;transform:translateX(-50%);pointer-events:none;mix-blend-mode:screen;filter:blur(5px);background:linear-gradient(to bottom, rgba(255,226,170,.75), rgba(255,236,196,1) 45%, rgba(255,210,140,.85));box-shadow:0 0 150px 70px rgba(255,170,90,.42);transition:width 1.6s cubic-bezier(.2,.8,.2,1), opacity .5s ease}
+.door.open .light{width:clamp(10px, 1.3vw, 24px);opacity:1}
+.door.open .dbg{filter:brightness(1.12)}
+.dscrim{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top, rgba(12,2,4,.9) 0%, rgba(12,2,4,.55) 34%, rgba(12,2,4,0) 56%)}
+.dpanel{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom, 0px) + 5vh);padding-left:var(--gutter-l);padding-right:var(--gutter-r);display:flex;flex-direction:column;gap:14px;max-width:560px}
+.dpanel h2{margin:0;font-family:var(--display);font-weight:400;font-size:clamp(36px, 9.6vw, 66px);line-height:.95;text-transform:uppercase;text-wrap:balance}
+.dpanel form{display:flex;flex-direction:column;gap:4px}
+.dpanel label{margin-top:10px;font-size:11px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.dpanel input{flex:none;width:100%;height:48px;padding:0 2px;background:transparent;border:0;border-bottom:1.5px solid rgba(255,244,238,.45);border-radius:0;color:var(--cream);font:400 18px var(--ui)}
+.dpanel input::placeholder{color:rgba(255,244,238,.45)}
+.dpanel input:focus{outline:none;border-bottom-color:var(--cream);border-bottom-width:2px}
+.dpanel .go{margin-top:20px;align-self:flex-start;background:var(--cream);color:#2A0509;padding:0 22px;font-size:12px}
+.dpanel .go:hover{background:#fff}
+.dpanel .note{margin:0;font-size:12px !important;letter-spacing:.14em;color:var(--muted)}
+.done{margin:0;font-family:var(--hand);font-size:clamp(32px, 7.4vw, 50px);line-height:1.1;color:var(--cream)}
+.door.open form,.door.open .note{display:none}
+@media (min-aspect-ratio: 1/1) and (min-width: 860px){
+  .dscrim{background:linear-gradient(to top right, rgba(12,2,4,.9) 0%, rgba(12,2,4,.45) 38%, rgba(12,2,4,0) 60%)}
+  .dpanel{right:auto;width:min(460px, 36vw);padding-left:max(6vw, env(safe-area-inset-left, 0px));bottom:8vh}
+  .dpanel h2{font-size:clamp(40px, 3.8vw, 62px)}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .hint .dot,.cue svg{animation:none}
+  .flick.run{animation:none}
+  .bulb .on{animation:none}
+  .light,.dbg{transition:none}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="wax" x="-10%" y="-30%" width="120%" height="160%">
+    <feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="2" seed="7" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="1.6" xChannelSelector="R" yChannelSelector="G" result="d"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.1 1.38" result="a"/>
+    <feComposite in="d" in2="a" operator="in" result="tex"/>
+    <feGaussianBlur in="tex" stdDeviation="0.35"/>
+  </filter>
+  <filter id="kissTex" x="-10%" y="-10%" width="120%" height="120%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.012 0.2" numOctaves="2" seed="11" result="creases"/>
+    <feColorMatrix in="creases" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.6 2.05" result="ca"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="4" result="grain"/>
+    <feDisplacementMap in="SourceGraphic" in2="grain" scale="4" xChannelSelector="R" yChannelSelector="G" result="rough"/>
+    <feComposite in="rough" in2="ca" operator="in" result="k"/>
+    <feGaussianBlur in="k" stdDeviation="0.4"/>
+  </filter>
+</svg>
+
+<main>
+<section class="stage" id="stage" aria-label="Adustar dressing room">
+  <img class="bg" id="bg" src="assets/camerino-h.jpg" alt="An empty dressing room on a film set: a mirror framed by warm bulbs, red lipstick, two glasses of champagne and a director's chair">
+  <div class="glass" id="glass" aria-hidden="true"></div>
+  <div class="bulbs" id="bulbs" aria-hidden="true"></div>
+
+  <div class="mirror" id="mirror">
+    <h1 class="logo" aria-label="Adustar">
+      <span class="row"><span>ADU</span><svg viewBox="0 0 100 95" aria-hidden="true"><path d="M50 0 L61.23 34.55 L97.55 34.55 L68.16 55.9 L79.39 90.45 L50 69.1 L20.61 90.45 L31.84 55.9 L2.45 34.55 L38.77 34.55 Z" fill="#D7193B" id="star"/></svg></span>
+      <span>STAR</span>
+    </h1>
+    <p class="sr-only">Not another parasite agency.</p>
+    <p class="lip"><span>By artists.</span><span>For artists.</span></p>
+    <img class="kiss" src="assets/beso.webp" alt="">
+  </div>
+
+  <div class="flash" id="flash"></div>
+  <canvas class="fog" id="fog" aria-hidden="true"></canvas>
+  <canvas class="sparks" id="sparks" aria-hidden="true"></canvas>
+  <div class="haze" id="haze" aria-hidden="true"><img class="hz hz-a" id="hzA" alt="" src="assets/haze-h.jpg"><img class="hz hz-b" alt="" src="assets/haze-b.jpg"></div>
+  <video class="hazev" id="hazev" muted playsinline preload="auto" aria-hidden="true"></video>
+
+  <div class="topbar"><span>COMING SOON</span><span>18+ ONLY</span></div>
+  <div class="hint" id="hint"><span class="track"><span class="dot"></span></span><span id="hintText">WIPE THE MIRROR</span></div>
+  <button class="skip" id="skip" type="button">Skip</button>
+  <div class="dim" id="dim"></div>
+  <a class="cue" href="#mark">ENTER THE SET<svg width="14" height="9" viewBox="0 0 14 9" aria-hidden="true"><path d="M1 1l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a>
+</section>
+
+<section class="scene" id="mark" aria-label="Your mark on set">
+  <div class="pin" id="pin">
+    <img class="sbg" id="sbg" src="assets/plato-h.jpg" alt="An empty film set in the dark: one spotlight falls on a red tape X marking where the actress stands, with a camera waiting">
+    <canvas class="dust" id="dust" aria-hidden="true"></canvas>
+    <div class="xglow" id="xglow"></div>
+    <div class="scrim"></div>
+    <div class="dark" id="dark"></div>
+    <div class="flick" id="flick"></div>
+    <canvas class="dancer" id="dancer" aria-hidden="true"></canvas>
+    <div class="beats">
+      <div class="beat-a">
+        <h2 id="b1">We don't wait for your success.</h2>
+        <p id="b2">We invest in it.</p>
+      </div>
+      <div class="beat-b" id="b3">
+        <p>You don't need thousands of followers, industry connections or years of experience to get started.</p>
+        <p class="big">You need potential.<br><em>And the right people behind you.</em></p>
+        <p>ADUSTAR discovers and develops adult talent. We fund your launch and give you education, professional production, logistics and career management.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="door" id="join" aria-label="Your dressing room door">
+  <img class="dbg" id="dbg" src="assets/puerta-h.jpg" alt="A red dressing room door with a brass star and an empty brass name plate">
+  <div class="light" id="light" aria-hidden="true"></div>
+  <div class="plate" id="plate" aria-hidden="true"><span id="plateText" class="empty">YOUR NAME</span></div>
+  <div class="dscrim"></div>
+  <div class="dpanel">
+    <h2>Your name belongs<br>on this door.</h2>
+    <form id="notify" novalidate>
+      <label for="name">Name or stage name</label>
+      <input id="name" name="name" type="text" maxlength="24" autocomplete="nickname" placeholder="How should we call you?">
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" placeholder="you@email.com" autocomplete="email" required>
+      <button class="go" type="submit">PUT MY NAME ON THE DOOR</button>
+    </form>
+    <p class="note" id="note">Confidential. 18+ only.</p>
+    <p class="done" id="done" hidden></p>
+  </div>
+</section>
+</main>
+<footer><span>© ADUSTAR</span><span>BY ARTISTS. FOR ARTISTS.</span></footer>
+
+<script>
+(function(){
+  var root = document.documentElement;
+  root.classList.add('js');
+
+  var IMGS = {
+    land: { src: 'assets/camerino-h.jpg', w: 2400, h: 1348, m: [0.235, 0.19, 0.535, 0.60], g: [0.218, 0.142, 0.546, 0.645], br: 0.019, die: [2, 5],
+            b: [[0.1965,0.082],[0.334,0.1],[0.4605,0.123],[0.575,0.149],[0.195,0.316],[0.575,0.347],[0.1975,0.543],[0.574,0.547]] },
+    port: { src: 'assets/camerino-v.jpg', w: 941,  h: 1672, m: [0.215, 0.245, 0.785, 0.50], g: [0.203, 0.236, 0.792, 0.553], br: 0.032, die: [2, 5],
+            b: [[0.165,0.202],[0.393,0.203],[0.618,0.206],[0.84,0.212],[0.163,0.339],[0.847,0.343],[0.165,0.471],[0.847,0.471]] }
+  };
+  var stage = document.getElementById('stage');
+  var bg = document.getElementById('bg');
+  var mirror = document.getElementById('mirror');
+  var flash = document.getElementById('flash');
+  var fog = document.getElementById('fog');
+  var sparks = document.getElementById('sparks');
+  var hint = document.getElementById('hint');
+  var skip = document.getElementById('skip');
+  var ctx = fog.getContext('2d');
+  var sctx = sparks.getContext('2d');
+
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fogImg = new Image();
+  var fogReady = false;
+  fogImg.onload = function(){ fogReady = true; if (!revealed) paintFog(); };
+  fogImg.src = 'assets/vaho.jpg';
+
+  var mode = null, I = null, vw = 0, vh = 0, s = 1, ox = 0, oy = 0, dpr = 1;
+  var revealed = false, lastW = 0;
+  var CELL = 22, cols = 0, rows = 0, cleared = null, isM = null, total = 0, tc = 0, mt = 0, mc = 0;
+  var brushR = 40, last = null, mrect = null;
+
+  function layout(){
+    vw = stage.clientWidth; vh = stage.clientHeight;
+    var m = vw / vh < 0.95 ? 'port' : 'land';
+    if (m !== mode){ mode = m; I = IMGS[m]; if (bg.getAttribute('src') !== I.src) bg.src = I.src; document.getElementById('hzA').src = m === 'port' ? 'assets/haze-v.jpg' : 'assets/haze-h.jpg'; }
+    s = Math.max(vw / I.w, vh / I.h);
+    ox = (vw - I.w * s) / 2; oy = (vh - I.h * s) / 2;
+    bg.style.width = (I.w * s) + 'px'; bg.style.height = (I.h * s) + 'px';
+    bg.style.left = ox + 'px'; bg.style.top = oy + 'px';
+    var x0 = ox + I.m[0] * I.w * s, y0 = oy + I.m[1] * I.h * s;
+    var x1 = ox + I.m[2] * I.w * s, y1 = oy + I.m[3] * I.h * s;
+    mrect = { x: x0, y: y0, w: x1 - x0, h: y1 - y0 };
+    mirror.style.left = x0 + 'px'; mirror.style.top = y0 + 'px';
+    mirror.style.width = mrect.w + 'px'; mirror.style.height = mrect.h + 'px';
+    mirror.style.setProperty('--m', Math.min(mrect.w, mrect.h * 1.2).toFixed(1));
+    flash.style.setProperty('--fx', ((x0 + mrect.w / 2) / vw * 100).toFixed(1) + '%');
+    flash.style.setProperty('--fy', ((y0 + mrect.h / 2) / vh * 100).toFixed(1) + '%');
+    brushR = Math.max(26, Math.min(64, Math.min(vw, vh) * 0.075));
+    var gl = document.getElementById('glass');
+    gl.style.left = (ox + I.g[0] * I.w * s + 4) + 'px'; gl.style.top = (oy + I.g[1] * I.h * s + 4) + 'px';
+    gl.style.width = ((I.g[2] - I.g[0]) * I.w * s - 8) + 'px'; gl.style.height = ((I.g[3] - I.g[1]) * I.h * s - 8) + 'px';
+    placeBulbs();
+  }
+
+  // the mirror bulbs: most breathe softly, two are about to burn out
+  var bulbsWrap = document.getElementById('bulbs'), bulbEls = [], bulbMode = null, dieTimers = [];
+  function placeBulbs(){
+    if (bulbMode !== mode){
+      bulbMode = mode; dieTimers.forEach(clearTimeout); dieTimers = [];
+      while (bulbsWrap.firstChild) bulbsWrap.removeChild(bulbsWrap.firstChild);
+      bulbEls = I.b.map(function(pt, i){
+        var el = document.createElement('div'); el.className = 'bulb';
+        var off = document.createElement('div'); off.className = 'off';
+        var on = document.createElement('div'); on.className = 'on';
+        on.style.setProperty('--bd', (3.5 + Math.random() * 3).toFixed(2) + 's'); on.style.animationDelay = (-Math.random() * 5).toFixed(2) + 's';
+        el.appendChild(off); el.appendChild(on); bulbsWrap.appendChild(el);
+        var b = { el: el, off: off, on: on, pt: pt };
+        if (I.die.indexOf(i) > -1 && !reduce){ el.classList.add('dying'); dieTimers.push(setTimeout(function(){ dying(b); }, 900 + Math.random() * 2500)); }
+        return b;
+      });
+    }
+    var d = 2 * I.br * I.w * s;
+    bulbEls.forEach(function(b){
+      b.el.style.left = (ox + b.pt[0] * I.w * s) + 'px'; b.el.style.top = (oy + b.pt[1] * I.h * s) + 'px';
+      b.el.style.width = d + 'px'; b.el.style.height = d + 'px';
+    });
+  }
+  function setBulb(b, state){
+    if (state === 'off'){ b.off.style.opacity = (0.72 + Math.random() * 0.25).toFixed(2); b.on.style.opacity = '0'; }
+    else if (state === 'hot'){ b.off.style.opacity = '0'; b.on.style.opacity = '0.75'; }
+    else { b.off.style.opacity = '0'; b.on.style.opacity = '0.24'; }
+  }
+  function dying(b){
+    var t = 0, n = 2 + Math.floor(Math.random() * 5), long = Math.random() < 0.25;
+    for (var i = 0; i < n; i++){
+      (function(i){ dieTimers.push(setTimeout(function(){ setBulb(b, i % 2 === 0 ? 'off' : (Math.random() < 0.4 ? 'hot' : 'on')); }, t)); })(i);
+      t += (i % 2 === 0 ? 35 + Math.random() * 120 : 25 + Math.random() * 90) + (long && i === n - 1 ? 700 : 0);
+    }
+    dieTimers.push(setTimeout(function(){ setBulb(b, 'hot'); }, t));
+    dieTimers.push(setTimeout(function(){ setBulb(b, 'on'); }, t + 90));
+    dieTimers.push(setTimeout(function(){ dying(b); }, t + 1400 + Math.random() * 4200));
+  }
+
+  function setupGrid(){
+    cols = Math.ceil(vw / CELL); rows = Math.ceil(vh / CELL);
+    cleared = new Uint8Array(cols * rows); isM = new Uint8Array(cols * rows);
+    total = cols * rows; tc = 0; mt = 0; mc = 0;
+    for (var r = 0; r < rows; r++) for (var c = 0; c < cols; c++){
+      var cx = c * CELL + CELL / 2, cy = r * CELL + CELL / 2;
+      if (cx > mrect.x && cx < mrect.x + mrect.w && cy > mrect.y && cy < mrect.y + mrect.h){ isM[r * cols + c] = 1; mt++; }
+    }
+  }
+
+  function cover(img, iw, ih, w, h){
+    var k = Math.max(w / iw, h / ih);
+    return [ (w - iw * k) / 2, (h - ih * k) / 2, iw * k, ih * k ];
+  }
+
+  function paintFog(){
+    if (revealed) return;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    fog.width = Math.round(vw * dpr); fog.height = Math.round(vh * dpr);
+    var W = fog.width, H = fog.height;
+    ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+    ctx.fillStyle = '#2a2420'; ctx.fillRect(0, 0, W, H);
+    if (fogReady){
+      var c = cover(fogImg, fogImg.naturalWidth, fogImg.naturalHeight, W, H);
+      ctx.drawImage(fogImg, c[0], c[1], c[2], c[3]);
+    }
+    // let the warm room bleed through the condensation
+    if (bg.complete && bg.naturalWidth){
+      var t1 = document.createElement('canvas'); t1.width = Math.max(8, Math.round(vw / 26)); t1.height = Math.max(8, Math.round(vh / 26));
+      t1.getContext('2d').drawImage(bg, ox / 26, oy / 26, I.w * s / 26, I.h * s / 26);
+      var t2 = document.createElement('canvas'); t2.width = Math.round(vw / 6); t2.height = Math.round(vh / 6);
+      t2.getContext('2d').drawImage(t1, 0, 0, t2.width, t2.height);
+      ctx.globalCompositeOperation = 'overlay'; ctx.globalAlpha = 0.95;
+      ctx.drawImage(t2, 0, 0, W, H);
+      ctx.globalCompositeOperation = 'soft-light'; ctx.globalAlpha = 0.8;
+      ctx.drawImage(t2, 0, 0, W, H);
+    }
+    ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+    ctx.fillStyle = 'rgba(14,10,8,0.28)'; ctx.fillRect(0, 0, W, H);
+    writeFog();
+    setupGrid();
+  }
+
+  // "Not another parasite agency." written with a finger in the condensation
+  function writeFog(){
+    var lines = ['NOT ANOTHER', 'PARASITE', 'AGENCY.'];
+    var face = '700 ', fam = '"Amatic SC", "Arial Narrow", sans-serif';
+    face = fam;
+    ctx.font = '700 100px ' + face;
+    var wide = ctx.measureText(lines[0]).width / 100;
+    var css = Math.min(vh * 0.16, (vw * 0.86) / wide, 200);
+    var fs = css * dpr, lh = fs * 0.9;
+    var tw = wide * css;
+    var cxc = Math.max(tw / 2 + 12, Math.min(vw - tw / 2 - 12, mrect.x + mrect.w / 2));
+    var cx = cxc * dpr, cy = (mrect.y + mrect.h / 2) * dpr;
+    ctx.save();
+    ctx.translate(cx, cy); ctx.rotate(-0.07);
+    // 1) denser, paler condensation behind the words so the dark letters pop
+    ctx.save(); ctx.scale(1, 0.72);
+    var R = tw * 0.78 * dpr, halo = ctx.createRadialGradient(0, 0, 0, 0, 0, R);
+    halo.addColorStop(0, 'rgba(236,224,212,0.22)'); halo.addColorStop(0.6, 'rgba(236,224,212,0.1)'); halo.addColorStop(1, 'rgba(236,224,212,0)');
+    ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(0, 0, R, 0, 6.2832); ctx.fill();
+    ctx.restore();
+    ctx.font = '700 ' + fs + 'px ' + face;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    // 2) the finger stroke: fully cleared, thick, soft edge
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.shadowColor = 'rgba(0,0,0,1)'; ctx.shadowBlur = css * 0.015 * dpr;
+    ctx.fillStyle = 'rgba(0,0,0,1)'; ctx.strokeStyle = 'rgba(0,0,0,1)'; ctx.lineWidth = css * 0.022 * dpr;
+    for (var i = 0; i < lines.length; i++){ var dx = (i - 1) * fs * 0.06; ctx.fillText(lines[i], dx, (i - 1) * lh); ctx.strokeText(lines[i], dx, (i - 1) * lh); }
+    // a few drops running down from the letters
+    ctx.shadowBlur = 2 * dpr; ctx.lineCap = 'round';
+    for (var k = 0; k < 9; k++){
+      var x = (Math.random() - 0.5) * tw * 0.8 * dpr, y = (Math.floor(Math.random() * 3) - 1) * lh + fs * 0.26, len = (24 + Math.random() * 84) * dpr;
+      var g = ctx.createLinearGradient(0, y, 0, y + len);
+      g.addColorStop(0, 'rgba(0,0,0,.75)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.strokeStyle = g; ctx.lineWidth = (1.6 + Math.random() * 2.2) * dpr;
+      ctx.beginPath(); ctx.moveTo(x, y); ctx.bezierCurveTo(x + 2 * dpr, y + len * 0.35, x - 2 * dpr, y + len * 0.7, x + dpr, y + len); ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function mark(x, y){
+    var rr = brushR * 0.72, c0 = Math.max(0, Math.floor((x - rr) / CELL)), c1 = Math.min(cols - 1, Math.floor((x + rr) / CELL));
+    var r0 = Math.max(0, Math.floor((y - rr) / CELL)), r1 = Math.min(rows - 1, Math.floor((y + rr) / CELL));
+    for (var r = r0; r <= r1; r++) for (var c = c0; c <= c1; c++){
+      var i = r * cols + c, cx = c * CELL + CELL / 2, cy = r * CELL + CELL / 2;
+      if (!cleared[i] && (cx - x) * (cx - x) + (cy - y) * (cy - y) < rr * rr){ cleared[i] = 1; tc++; if (isM[i]) mc++; }
+    }
+    if (!revealed && ((mt && mc / mt > 0.42) || tc / total > 0.3)) reveal(false);
+  }
+
+  function dab(x, y){
+    var X = x * dpr, Y = y * dpr, R = brushR * dpr;
+    ctx.globalCompositeOperation = 'destination-out';
+    var g = ctx.createRadialGradient(X, Y, 0, X, Y, R);
+    g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(0.55, 'rgba(0,0,0,.9)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(X, Y, R, 0, 6.2832); ctx.fill();
+    mark(x, y);
+  }
+
+  function strokeTo(x, y){
+    if (!last){ dab(x, y); last = { x: x, y: y }; return; }
+    var dx = x - last.x, dy = y - last.y, d = Math.hypot(dx, dy), step = brushR * 0.3, n = Math.max(1, Math.ceil(d / step));
+    for (var i = 1; i <= n; i++){ if (revealed) break; dab(last.x + dx * i / n, last.y + dy * i / n); }
+    last = { x: x, y: y };
+  }
+
+  function pos(e){ var r = fog.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+  var touched = false;
+  function firstTouch(){ if (!touched){ touched = true; hint.style.opacity = '0'; } }
+  fog.addEventListener('pointerdown', function(e){ var p = pos(e); last = null; firstTouch(); strokeTo(p.x, p.y); });
+  fog.addEventListener('pointermove', function(e){ if (revealed) return; if (e.pointerType !== 'mouse' && !e.buttons) return; var p = pos(e); firstTouch(); strokeTo(p.x, p.y); });
+  fog.addEventListener('pointerleave', function(){ last = null; });
+  fog.addEventListener('pointerup', function(){ last = null; });
+  skip.addEventListener('click', function(){ reveal(false); });
+
+  function reveal(instant){
+    if (revealed) return; revealed = true;
+    if (instant) stage.classList.add('instant');
+    stage.classList.add('revealed');
+    if (!instant){ playHaze(); }
+    setTimeout(function(){ fog.width = 1; fog.height = 1; fog.style.display = 'none'; }, instant ? 0 : 1200);
+  }
+
+  var hazev = document.getElementById('hazev'), hazeOk = false;
+  hazev.addEventListener('loadeddata', function(){ hazeOk = true; });
+  hazev.addEventListener('error', function(){ hazeOk = false; });
+  hazev.src = 'assets/haze.mp4';
+  hazev.addEventListener('timeupdate', function(){ if (hazev.duration && hazev.duration - hazev.currentTime < 1.3) hazev.classList.remove('on'); });
+  function playHaze(){
+    if (!hazeOk) return;
+    try { hazev.currentTime = 0; } catch (e) {}
+    hazev.classList.add('on');
+    var pr = hazev.play(); if (pr && pr.catch) pr.catch(function(){ hazev.classList.remove('on'); });
+  }
+
+  // (unused) code-drawn haze, kept for reference
+  function burst(){
+    var d = Math.min(window.devicePixelRatio || 1, 2);
+    sparks.width = Math.round(vw * d); sparks.height = Math.round(vh * d);
+    var spr = document.createElement('canvas'); spr.width = spr.height = 256;
+    var c = spr.getContext('2d');
+    for (var q = 0; q < 30; q++){
+      var sx = 128 + (Math.random() - 0.5) * 70, sy = 128 + (Math.random() - 0.5) * 70, sr = 30 + Math.random() * 55;
+      var g = c.createRadialGradient(sx, sy, 0, sx, sy, sr);
+      g.addColorStop(0, 'rgba(216,198,180,0.11)'); g.addColorStop(0.55, 'rgba(216,198,180,0.05)'); g.addColorStop(1, 'rgba(216,198,180,0)');
+      c.fillStyle = g; c.fillRect(0, 0, 256, 256);
+    }
+    var cx = mrect.x + mrect.w / 2, cy = mrect.y + mrect.h / 2, base = Math.max(mrect.w, mrect.h);
+    var puffs = [];
+    for (var i = 0; i < 38; i++){
+      var a = Math.random() * 6.2832, dist = Math.sqrt(Math.random()) * base * 0.95;
+      puffs.push({ x: cx + Math.cos(a) * dist * 1.2, y: cy + Math.sin(a) * dist * 0.8, s: base * (0.55 + Math.random() * 0.75),
+        vx: Math.cos(a) * (0.15 + Math.random() * 0.45), vy: -0.1 - Math.random() * 0.4, r: Math.random() * 6.28, vr: (Math.random() - 0.5) * 0.003,
+        a: 0.32 + Math.random() * 0.4, delay: Math.random() * 0.35 });
+    }
+    var T = 5200, t0 = performance.now();
+    function tick(now){
+      var t = (now - t0) / T;
+      sctx.setTransform(d, 0, 0, d, 0, 0); sctx.clearRect(0, 0, vw, vh);
+      if (t >= 1) return;
+      for (var i = 0; i < puffs.length; i++){
+        var p = puffs[i], lt = Math.max(0, t - p.delay * 0.15);
+        var fin = Math.min(1, lt / 0.05), fout = 1 - Math.pow(Math.max(0, (lt - 0.06) / 0.94), 0.7);
+        var al = p.a * fin * Math.max(0, fout); if (al <= 0) continue;
+        p.x += p.vx; p.y += p.vy; p.r += p.vr; var sz = p.s * (1 + lt * 0.5);
+        sctx.save(); sctx.globalAlpha = al; sctx.translate(p.x, p.y); sctx.rotate(p.r);
+        sctx.drawImage(spr, -sz / 2, -sz / 2, sz, sz); sctx.restore();
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function onResize(){
+    layout();
+    if (!revealed && Math.abs(vw - lastW) > 2){ lastW = vw; paintFog(); }
+  }
+
+  layout(); lastW = vw;
+  if (reduce){ reveal(true); }
+  else {
+    if (window.matchMedia && matchMedia('(hover: hover)').matches) document.getElementById('hintText').textContent = 'WIPE THE MIRROR';
+    paintFog();
+    bg.addEventListener('load', function(){ layout(); if (!revealed && !touched) paintFog(); });
+    if (document.fonts && document.fonts.load){
+      document.fonts.load('700 40px "Amatic SC"').then(function(){ if (!revealed && !touched) paintFog(); }).catch(function(){});
+    }
+  }
+  var rt; window.addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(onResize, 120); });
+
+  // ---------- THE MARK: scroll-driven spotlight scene ----------
+  var SC = {
+    land: { src: 'assets/plato-h.jpg', w: 2400, h: 1340, x: [0.4965, 0.665], r: [0.161, 0.094], apex: [0.4925, 0] },
+    port: { src: 'assets/plato-v.jpg', w: 940,  h: 1672, x: [0.5, 0.565],    r: [0.277, 0.056], apex: [0.5, 0.11] }
+  };
+  var scene = document.getElementById('mark'), pin = document.getElementById('pin'), sbg = document.getElementById('sbg');
+  var dark = document.getElementById('dark'), flick = document.getElementById('flick'), xglow = document.getElementById('xglow');
+  var dust = document.getElementById('dust'), dctx = dust.getContext('2d'), dim = document.getElementById('dim');
+  var b1 = document.getElementById('b1'), b2 = document.getElementById('b2'), b3 = [].slice.call(document.getElementById('b3').children);
+  var S = null, smode = null, sw = 0, sh = 0, geo = null, flicked = false, inView = false, motes = [];
+
+  function sLayout(){
+    sw = pin.clientWidth; sh = pin.clientHeight;
+    var m = sw / sh < 0.95 ? 'port' : 'land';
+    if (m !== smode){ smode = m; S = SC[m]; if (sbg.getAttribute('src') !== S.src) sbg.src = S.src; }
+    var k = Math.max(sw / S.w, sh / S.h), ox2 = (sw - S.w * k) / 2, oy2 = (sh - S.h * k) / 2;
+    sbg.style.width = (S.w * k) + 'px'; sbg.style.height = (S.h * k) + 'px'; sbg.style.left = ox2 + 'px'; sbg.style.top = oy2 + 'px';
+    geo = { xx: ox2 + S.x[0] * S.w * k, xy: oy2 + S.x[1] * S.h * k, rx: S.r[0] * S.w * k, ry: S.r[1] * S.h * k, ax: ox2 + S.apex[0] * S.w * k, ay: oy2 + S.apex[1] * S.h * k };
+    xglow.style.left = geo.xx + 'px'; xglow.style.top = geo.xy + 'px';
+    xglow.style.width = (geo.rx * 1.5) + 'px'; xglow.style.height = (geo.ry * 2.2) + 'px';
+    var d = Math.min(window.devicePixelRatio || 1, 2);
+    dust.width = Math.round(sw * d); dust.height = Math.round(sh * d); dctx.setTransform(d, 0, 0, d, 0, 0);
+    motes = [];
+    for (var i = 0; i < 90; i++) motes.push(newMote(true));
+    dancerEl.width = dust.width; dancerEl.height = dust.height; dnc.setTransform(d, 0, 0, d, 0, 0);
+    buildDancer();
+  }
+
+  // the dancer: dust from the beam gathers on the mark into her silhouette, then dances through five poses
+  var POSES = ['assets/bailarina-0.png', 'assets/bailarina-1.png', 'assets/bailarina-2.png', 'assets/bailarina-3.png', 'assets/bailarina-4.png'];
+  var HOLD = 1.1, MOVE = 0.75;
+  var dancerGeo = null, dancerEl = document.getElementById('dancer'), dnc = dancerEl.getContext('2d'), raws = [], dpts = null, curP = 0, aS = 0, loaded = 0;
+  function samplePose(img){
+    var w = 180, h = Math.round(180 * img.naturalHeight / img.naturalWidth);
+    var c = document.createElement('canvas'); c.width = w; c.height = h;
+    var x = c.getContext('2d'); x.drawImage(img, 0, 0, w, h);
+    var px = x.getImageData(0, 0, w, h).data, pts = [], miny = h, maxy = 0;
+    for (var yy = 0; yy < h; yy++) for (var xx = 0; xx < w; xx++){
+      if (px[(yy * w + xx) * 4] > 140){ pts.push([xx, yy]); if (yy < miny) miny = yy; if (yy > maxy) maxy = yy; }
+    }
+    // anchor on the feet: average x of the lowest 12% of the figure
+    var cut = maxy - (maxy - miny) * 0.12, fx = 0, fn = 0;
+    for (var i = 0; i < pts.length; i++) if (pts[i][1] >= cut){ fx += pts[i][0]; fn++; }
+    pts.sort(function(a, b){ return a[1] - b[1] || a[0] - b[0]; });
+    return { pts: pts, fx: fn ? fx / fn : w / 2, miny: miny, maxy: maxy };
+  }
+  POSES.forEach(function(src, idx){
+    var im = new Image();
+    im.onload = function(){ raws[idx] = samplePose(im); loaded++; if (loaded === POSES.length){ buildDancer(); onScroll(); } };
+    im.src = src;
+  });
+  function buildDancer(){
+    if (loaded < POSES.length || !geo) return;
+    var N = sw < 700 ? 1500 : 2800;
+    var H = (geo.xy - geo.ay) * 0.5, k = H / (raws[0].maxy - raws[0].miny);
+    var feet = geo.xy + geo.ry * 0.12;
+    dancerGeo = { fx: geo.xx, fy: feet, H: H };
+    dpts = [];
+    for (var i = 0; i < N; i++){
+      var r = Math.random(), lx = [], ly = [];
+      for (var j = 0; j < raws.length; j++){
+        var R = raws[j], q = R.pts[Math.min(R.pts.length - 1, Math.floor(r * R.pts.length))];
+        var jx = Math.random(), jy = Math.random();
+        lx.push((q[0] + jx - R.fx) * k); ly.push((R.maxy - (q[1] + jy)) * k);
+      }
+      var sy = geo.ay + (geo.xy - geo.ay) * Math.random(), f = (sy - geo.ay) / (geo.xy - geo.ay), half = 8 + geo.rx * 0.8 * f;
+      dpts.push({ lx: lx, ly: ly, sx: geo.ax + (Math.random() * 2 - 1) * half, sy: sy,
+        d: Math.random() * 0.45, ph: Math.random() * 6.283, r: 0.5 + Math.random() * 0.9, esc: Math.random() < 0.06, eo: Math.random() });
+    }
+  }
+  var danceT0 = null;
+  function drawDancer(now){
+    dnc.clearRect(0, 0, sw, sh);
+    if (!dpts) return;
+    var target = ramp(curP, 0.58, 0.8);
+    aS = reduce ? target : aS + (target - aS) * 0.1;
+    if (aS < 0.003){ danceT0 = null; return; }
+    var tt = now * 0.001, G = dancerGeo;
+    // the choreography only starts once she has fully formed
+    var A = 0, B = 0, m = 0;
+    if (!reduce && aS > 0.97){
+      if (danceT0 === null) danceT0 = tt;
+      var cyc = HOLD + MOVE, el = tt - danceT0, step = Math.floor(el / cyc), inStep = el - step * cyc;
+      A = step % POSES.length; B = (A + 1) % POSES.length;
+      var u = Math.max(0, (inStep - HOLD) / MOVE); m = u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
+    } else if (aS < 0.9){ danceT0 = null; }
+    var sway = Math.sin(tt * 0.75) * 0.04, wave = G.H * 0.012, breathe = 1 + Math.sin(tt * 1.15) * 0.01, swirl = m * (1 - m) * 4;
+    dnc.fillStyle = '#FFD9A6';
+    for (var i = 0; i < dpts.length; i++){
+      var p = dpts[i];
+      var lx = p.lx[A] + (p.lx[B] - p.lx[A]) * m + Math.sin(p.ph + tt * 2) * G.H * 0.05 * swirl;
+      var ly = p.ly[A] + (p.ly[B] - p.ly[A]) * m + Math.cos(p.ph + tt * 2) * G.H * 0.03 * swirl;
+      var hn = ly / G.H;
+      var tx = G.fx + lx + sway * ly + Math.sin(tt * 1.5 - hn * 3.2) * wave * hn, ty = G.fy - ly * breathe;
+      var t = Math.max(0, Math.min(1, (aS * 1.45 - p.d))), e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      var drift = (1 - e) * 26;
+      var x = p.sx + (tx - p.sx) * e + Math.sin(tt * 1.3 + p.ph) * drift;
+      var y = p.sy + (ty - p.sy) * e + Math.cos(tt * 1.1 + p.ph) * drift * 0.6;
+      var al = (0.14 + 0.42 * e) * (0.65 + 0.35 * Math.sin(tt * 3 + p.ph * 2)) * (1 + swirl * 0.25);
+      if (p.esc && e > 0.97){ var ph = (tt * 0.22 + p.eo) % 1; y -= ph * G.H * 0.45; x += Math.sin(tt + p.ph) * ph * 12; al *= (1 - ph); }
+      dnc.globalAlpha = Math.min(1, al);
+      dnc.fillRect(x - p.r / 2, y - p.r / 2, p.r, p.r);
+    }
+    dnc.globalAlpha = 1;
+  }
+
+  function newMote(anywhere){
+    var t = anywhere ? Math.random() : 1;
+    var y = geo.ay + (geo.xy - geo.ay) * (anywhere ? Math.random() : 0.98);
+    var f = (y - geo.ay) / (geo.xy - geo.ay), half = 8 + geo.rx * 0.82 * f;
+    return { x: geo.ax + (Math.random() * 2 - 1) * half, y: y, vy: -(0.05 + Math.random() * 0.22), vx: (Math.random() - 0.5) * 0.12, r: 0.5 + Math.random() * 1.6, a: 0.15 + Math.random() * 0.45, tw: Math.random() * 6.28 };
+  }
+  var light = 0;
+  function drawDust(){
+    if (!inView || reduce){ return; }
+    drawDancer(performance.now());
+    dctx.clearRect(0, 0, sw, sh);
+    if (light > 0.02){
+      for (var i = 0; i < motes.length; i++){
+        var p = motes[i]; p.x += p.vx + Math.sin(p.tw += 0.01) * 0.08; p.y += p.vy;
+        var f = (p.y - geo.ay) / (geo.xy - geo.ay), half = 8 + geo.rx * 0.82 * f;
+        if (p.y < geo.ay + 4 || Math.abs(p.x - geo.ax) > half){ motes[i] = newMote(false); continue; }
+        dctx.globalAlpha = p.a * light * (0.6 + 0.4 * Math.sin(p.tw * 3));
+        dctx.fillStyle = '#FFE6CC'; dctx.beginPath(); dctx.arc(p.x, p.y, p.r, 0, 6.2832); dctx.fill();
+      }
+      dctx.globalAlpha = 1;
+    }
+    requestAnimationFrame(drawDust);
+  }
+  function ramp(p, a, b){ return Math.max(0, Math.min(1, (p - a) / (b - a))); }
+  function setBeat(el, o){ el.style.opacity = o.toFixed(3); el.style.transform = 'translateY(' + ((1 - o) * 18).toFixed(1) + 'px)'; }
+
+  function onScroll(){
+    // dressing room lights go off as you leave
+    var hr = stage.getBoundingClientRect();
+    if (revealed) dim.style.opacity = (Math.max(0, Math.min(1, -hr.top / (hr.height * 0.85))) * 0.95).toFixed(3);
+    var r = scene.getBoundingClientRect(), total = scene.offsetHeight - pin.offsetHeight;
+    var p = Math.max(0, Math.min(1, -r.top / total));
+    curP = p; if (reduce) drawDancer(0);
+    // darkness, then the spotlight clicks on
+    var dk = p < 0.08 ? 1 : p < 0.2 ? 1 - ramp(p, 0.08, 0.2) * 0.72 : 0.28 - ramp(p, 0.2, 0.55) * 0.24;
+    // dim the set while the longer copy is on screen, so it stays readable
+    dk += ramp(p, 0.62, 0.72) * (smode === 'port' ? 0.55 : 0.3);
+    dark.style.opacity = dk.toFixed(3);
+    light = 1 - dk;
+    if (p > 0.08 && !flicked){ flicked = true; if (!reduce){ flick.classList.remove('run'); void flick.offsetWidth; flick.classList.add('run'); } }
+    if (p < 0.03) flicked = false;
+    var o1 = ramp(p, 0.2, 0.3) * (1 - ramp(p, 0.62, 0.7));
+    var o2 = ramp(p, 0.36, 0.44) * (1 - ramp(p, 0.62, 0.7));
+    setBeat(b1, o1); setBeat(b2, o2);
+    xglow.style.opacity = (ramp(p, 0.36, 0.42) * (1 - 0.45 * ramp(p, 0.5, 0.62))).toFixed(3);
+    for (var i = 0; i < b3.length; i++) setBeat(b3[i], ramp(p, 0.7 + i * 0.07, 0.78 + i * 0.07));
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function(){ if (!ticking){ ticking = true; requestAnimationFrame(function(){ ticking = false; onScroll(); }); } }, { passive: true });
+  sbg.addEventListener('load', function(){ sLayout(); onScroll(); });
+  window.addEventListener('resize', function(){ sLayout(); onScroll(); });
+  if ('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){ var was = inView; inView = es[0].isIntersecting; if (inView && !was) requestAnimationFrame(drawDust); }).observe(pin);
+  }
+  sLayout(); onScroll();
+
+  // ---------- THE DOOR: your name on the brass plate ----------
+  var DC = {
+    land: { src: 'assets/puerta-h.jpg', w: 2400, h: 1340, p: [0.5285, 0.479, 0.6865, 0.593], rot: -2.5, gap: [0.325, 0] },
+    port: { src: 'assets/puerta-v.jpg', w: 941,  h: 1672, p: [0.582, 0.387, 0.768, 0.437],  rot: -2,   gap: [0.4, 0.14] }
+  };
+  var door = document.getElementById('join'), dbg = document.getElementById('dbg'), plate = document.getElementById('plate');
+  var plateText = document.getElementById('plateText'), lightEl = document.getElementById('light');
+  var D = null, dmode = null;
+  function fitPlate(){
+    var ph = plate.clientHeight, pw = plate.clientWidth * 0.84, fs = ph * 0.44;
+    plateText.style.fontSize = fs + 'px';
+    var tw = plateText.scrollWidth;
+    if (tw > pw) plateText.style.fontSize = (fs * pw / tw) + 'px';
+  }
+  function dLayout(){
+    var w = door.clientWidth, h = door.clientHeight, m = w / h < 0.95 ? 'port' : 'land';
+    if (m !== dmode){ dmode = m; D = DC[m]; if (dbg.getAttribute('src') !== D.src) dbg.src = D.src; }
+    var k = Math.max(w / D.w, h / D.h), x0 = (w - D.w * k) / 2, y0 = (h - D.h * k) / 2;
+    dbg.style.width = (D.w * k) + 'px'; dbg.style.height = (D.h * k) + 'px'; dbg.style.left = x0 + 'px'; dbg.style.top = y0 + 'px';
+    plate.style.left = (x0 + D.p[0] * D.w * k) + 'px'; plate.style.top = (y0 + D.p[1] * D.h * k) + 'px';
+    plate.style.width = ((D.p[2] - D.p[0]) * D.w * k) + 'px'; plate.style.height = ((D.p[3] - D.p[1]) * D.h * k) + 'px';
+    plate.style.transform = 'rotate(' + D.rot + 'deg)';
+    lightEl.style.left = (x0 + D.gap[0] * D.w * k) + 'px'; lightEl.style.top = Math.max(0, y0 + D.gap[1] * D.h * k) + 'px';
+    fitPlate();
+  }
+  dbg.addEventListener('load', dLayout);
+  window.addEventListener('resize', dLayout);
+  dLayout();
+  if (document.fonts && document.fonts.load) document.fonts.load('700 20px "Cinzel"').then(fitPlate).catch(function(){});
+
+  var form = document.getElementById('notify'), note = document.getElementById('note'), email = document.getElementById('email');
+  var nameIn = document.getElementById('name'), done = document.getElementById('done');
+  nameIn.addEventListener('input', function(){
+    var v = nameIn.value.replace(/\s+/g, ' ').trim();
+    plateText.textContent = v || 'YOUR NAME';
+    plateText.classList.toggle('empty', !v);
+    fitPlate();
+  });
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if (!email.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)){ note.textContent = 'Enter a valid email address so we can reach you.'; email.focus(); return; }
+    var v = nameIn.value.replace(/\s+/g, ' ').trim();
+    done.textContent = 'See you on set' + (v ? ', ' + v : '') + '. We’ll call you.';
+    done.hidden = false;
+    door.classList.add('open');
+  });
+})();
+</script>
+</body>
+</html>
