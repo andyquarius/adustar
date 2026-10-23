@@ -277,6 +277,7 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;paddin
       <input id="name" name="name" type="text" maxlength="24" autocomplete="nickname" placeholder="How should we call you?">
       <label for="email">Email</label>
       <input id="email" name="email" type="email" placeholder="you@email.com" autocomplete="email" required>
+      <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
       <button class="go" type="submit">PUT MY NAME ON THE DOOR</button>
     </form>
     <p class="note" id="note">Confidential. 18+ only.</p>
@@ -284,7 +285,7 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;paddin
   </div>
 </section>
 </main>
-<footer><span>© ADUSTAR</span><span>BY ARTISTS. FOR ARTISTS.</span></footer>
+<footer><span>© ADUSTAR</span><span>CONTACT@ADUSTARS.COM</span><span>BY ARTISTS. FOR ARTISTS.</span></footer>
 
 <script>
 (function(){
@@ -778,9 +779,21 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;paddin
     e.preventDefault();
     if (!email.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)){ note.textContent = 'Enter a valid email address so we can reach you.'; email.focus(); return; }
     var v = nameIn.value.replace(/\s+/g, ' ').trim();
-    done.textContent = 'See you on set' + (v ? ', ' + v : '') + '. We’ll call you.';
-    done.hidden = false;
-    door.classList.add('open');
+    var btn = form.querySelector('button[type=submit]');
+    btn.disabled = true; note.textContent = 'Sending…';
+    // registrations go to casting@adustars.com (FormSubmit, no backend needed)
+    fetch('https://formsubmit.co/ajax/casting@adustars.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ name: v || '(no name)', email: email.value.trim(), _subject: 'New ADUSTAR sign-up: ' + (v || email.value.trim()), _template: 'table', _captcha: 'false', _honey: form.querySelector('[name=_honey]').value })
+    }).then(function(r){ if (!r.ok) throw new Error('send'); return r.json(); }).then(function(){
+      done.textContent = 'See you on set' + (v ? ', ' + v : '') + '. We’ll call you.';
+      done.hidden = false;
+      door.classList.add('open');
+    }).catch(function(){
+      btn.disabled = false;
+      note.textContent = 'We couldn’t send it right now. Try again, or write to contact@adustars.com.';
+    });
   });
 })();
 </script>
