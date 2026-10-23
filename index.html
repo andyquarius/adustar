@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Adustar</title>
+<title>ADUSTARS</title>
 <meta name="description" content="Not another parasite agency. By artists, for artists. 18+ only.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Shadows+Into+Light&family=Cinzel:wght@700&family=Anton&family=Caveat+Brush&family=Jost:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Oswald:wght@500&family=Caveat:wght@700&family=Shadows+Into+Light&family=Cinzel:wght@700&family=Anton&family=Caveat+Brush&family=Jost:wght@400;500&display=swap">
 <style>
 /* Layout: one full-screen dressing-room stage (wipe the fogged mirror), then a quiet sign-up band. */
 :root{
@@ -20,7 +20,7 @@
   --red:#D7193B;
   --lip:#C8102E;
   --glow:255,192,128;
-  --display:'Anton', Impact, 'Arial Narrow Bold', sans-serif;
+  --display:'Anton', 'Oswald', Impact, 'Arial Narrow Bold', sans-serif;
   --hand:'Caveat Brush', 'Segoe Print', 'Bradley Hand', cursive;
   --ui:'Jost', 'Helvetica Neue', Arial, sans-serif;
   --gutter-l:max(16px, env(safe-area-inset-left, 0px));
@@ -50,7 +50,7 @@ a{color:var(--cream)}
 .parasite{position:relative;display:inline-block}
 .parasite svg{position:absolute;left:-7%;top:-5%;width:114%;height:110%;overflow:visible;filter:url(#wax)}
 .parasite path{fill:none;stroke:var(--lip);stroke-width:calc(var(--m) * .016px);stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:0}
-.lip{position:relative;display:flex;flex-direction:column;align-items:flex-start;font-family:'Shadows Into Light', 'Bradley Hand', cursive;font-size:calc(var(--m) * .135px);line-height:1.02;letter-spacing:.01em;-webkit-text-stroke:.025em currentColor;color:var(--lip);transform:rotate(-6deg);filter:url(#wax);margin-top:calc(var(--m) * .005px)}
+.lip{position:relative;display:flex;flex-direction:column;align-items:flex-start;font-family:'Shadows Into Light', 'Caveat', 'Bradley Hand', cursive;font-size:calc(var(--m) * .135px);line-height:1.02;letter-spacing:.01em;-webkit-text-stroke:.025em currentColor;color:var(--lip);transform:rotate(-6deg);filter:url(#wax);margin-top:calc(var(--m) * .005px)}
 .kiss{position:absolute;right:3%;top:2%;width:calc(var(--m) * .24px);max-width:28%;height:auto;transform:rotate(16deg);opacity:.92}
 .lip span{display:block;padding:0 .08em;clip-path:inset(-30% -5% -30% 0)}
 .lip span + span{margin-left:1.05em}
@@ -71,11 +71,16 @@ a{color:var(--cream)}
 @keyframes hazeB{0%{opacity:0;transform:scaleX(-1) translate(6%,22%) scale(1.1)}12%{opacity:.85}50%{opacity:.5}100%{opacity:0;transform:scaleX(-1) translate(-5%,-8%) scale(1.35)}}
 
 .topbar{position:absolute;z-index:6;left:0;right:0;top:0;display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:calc(env(safe-area-inset-top, 0px) + 18px);padding-left:var(--gutter-l);padding-right:var(--gutter-r);font-size:11px;font-weight:500;letter-spacing:.32em;color:var(--muted);pointer-events:none;text-shadow:0 1px 6px rgba(0,0,0,.6)}
-.hint{position:absolute;z-index:6;left:50%;bottom:calc(env(safe-area-inset-bottom, 0px) + 28px);transform:translateX(-50%);display:flex;align-items:center;gap:14px;padding:13px 22px;border:1px solid var(--line);border-radius:999px;background:rgba(11,9,8,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);font-size:12px;font-weight:500;letter-spacing:.3em;white-space:nowrap;pointer-events:none;transition:opacity .6s ease}
+.topbar{flex-wrap:wrap;letter-spacing:.12em}
+.langs{display:flex;gap:0;pointer-events:auto;margin-right:-6px}
+.langs button{min-height:44px;min-width:31px;padding:0 4px;background:none;border:0;color:var(--muted);font:500 11px var(--ui);letter-spacing:.08em;cursor:pointer;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+.langs button:hover{color:var(--cream)}
+.langs button[aria-pressed="true"]{color:var(--cream);text-decoration:underline;text-decoration-color:var(--red);text-underline-offset:5px;text-decoration-thickness:2px}
+.hint{position:absolute;z-index:6;left:50%;bottom:calc(env(safe-area-inset-bottom, 0px) + 28px);transform:translateX(-50%);display:flex;align-items:center;gap:14px;padding:13px 22px;border:1px solid var(--line);border-radius:999px;background:rgba(11,9,8,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);font-size:12px;font-weight:500;letter-spacing:.22em;white-space:nowrap;pointer-events:none;transition:opacity .6s ease}
 .hint .track{position:relative;width:34px;height:2px;background:var(--line);border-radius:2px}
 .hint .dot{position:absolute;top:-4px;left:0;width:10px;height:10px;border-radius:50%;background:var(--cream);animation:swipe 1.8s ease-in-out infinite}
 @keyframes swipe{0%,100%{transform:translateX(0)}50%{transform:translateX(24px)}}
-.skip{position:absolute;z-index:6;right:calc(var(--gutter-r) + 4px);bottom:calc(env(safe-area-inset-bottom, 0px) + 32px);min-height:44px;padding:0 6px;background:none;border:0;color:var(--muted);font:500 11px var(--ui);letter-spacing:.24em;text-transform:uppercase;cursor:pointer;transition:opacity .6s ease}
+.skip{position:absolute;z-index:6;right:calc(var(--gutter-r) + 4px);bottom:calc(env(safe-area-inset-bottom, 0px) + 86px);min-height:44px;padding:0 6px;background:none;border:0;color:var(--muted);font:500 11px var(--ui);letter-spacing:.24em;text-transform:uppercase;cursor:pointer;transition:opacity .6s ease}
 .skip:hover{color:var(--cream)}
 .cue{position:absolute;z-index:6;left:50%;bottom:calc(env(safe-area-inset-bottom, 0px) + 26px);transform:translateX(-50%);display:inline-flex;flex-direction:column;align-items:center;gap:8px;min-height:44px;padding:6px 12px;text-decoration:none;font-size:11px;font-weight:500;letter-spacing:.32em;color:var(--cream);white-space:nowrap}
 .cue svg{animation:bob 1.8s ease-in-out infinite}
@@ -220,12 +225,12 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;paddin
   <div class="bulbs" id="bulbs" aria-hidden="true"></div>
 
   <div class="mirror" id="mirror">
-    <h1 class="logo" aria-label="Adustar">
+    <h1 class="logo" aria-label="ADUSTARS">
       <span class="row"><span>ADU</span><svg viewBox="0 0 100 95" aria-hidden="true"><path d="M50 0 L61.23 34.55 L97.55 34.55 L68.16 55.9 L79.39 90.45 L50 69.1 L20.61 90.45 L31.84 55.9 L2.45 34.55 L38.77 34.55 Z" fill="#D7193B" id="star"/></svg></span>
-      <span>STAR</span>
+      <span>STARS</span>
     </h1>
-    <p class="sr-only">Not another parasite agency.</p>
-    <p class="lip"><span>By artists.</span><span>For artists.</span></p>
+    <p class="sr-only" data-i18n="fogsr">Not another parasite agency.</p>
+    <p class="lip" id="lip"><span data-i18n="lip1">By artists.</span><span data-i18n="lip2">For artists.</span></p>
     <img class="kiss" src="assets/beso.webp" alt="">
   </div>
 
@@ -235,11 +240,11 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;paddin
   <div class="haze" id="haze" aria-hidden="true"><img class="hz hz-a" id="hzA" alt="" src="assets/haze-h.jpg"><img class="hz hz-b" alt="" src="assets/haze-b.jpg"></div>
   <video class="hazev" id="hazev" muted playsinline preload="auto" aria-hidden="true"></video>
 
-  <div class="topbar"><span>COMING SOON</span><span>18+ ONLY</span></div>
-  <div class="hint" id="hint"><span class="track"><span class="dot"></span></span><span id="hintText">WIPE THE MIRROR</span></div>
-  <button class="skip" id="skip" type="button">Skip</button>
+  <div class="topbar"><span data-i18n="soon">COMING SOON · 18+</span><nav class="langs" id="langs" aria-label="Language"><button type="button" data-lang="en" lang="en" aria-pressed="false">EN</button><button type="button" data-lang="es" lang="es" aria-pressed="false">ES</button><button type="button" data-lang="fr" lang="fr" aria-pressed="false">FR</button><button type="button" data-lang="it" lang="it" aria-pressed="false">IT</button><button type="button" data-lang="pt" lang="pt" aria-pressed="false">PT</button><button type="button" data-lang="ru" lang="ru" aria-pressed="false">RU</button></nav></div>
+  <div class="hint" id="hint"><span class="track"><span class="dot"></span></span><span id="hintText" data-i18n="hint">WIPE THE MIRROR</span></div>
+  <button class="skip" id="skip" type="button" data-i18n="skip">Skip</button>
   <div class="dim" id="dim"></div>
-  <a class="cue" href="#mark">ENTER THE SET<svg width="14" height="9" viewBox="0 0 14 9" aria-hidden="true"><path d="M1 1l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a>
+  <a class="cue" href="#mark"><span data-i18n="cue">ENTER THE SET</span><svg width="14" height="9" viewBox="0 0 14 9" aria-hidden="true"><path d="M1 1l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a>
 </section>
 
 <section class="scene" id="mark" aria-label="Your mark on set">
@@ -253,13 +258,13 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;paddin
     <canvas class="dancer" id="dancer" aria-hidden="true"></canvas>
     <div class="beats">
       <div class="beat-a">
-        <h2 id="b1">We don't wait for your success.</h2>
-        <p id="b2">We invest in it.</p>
+        <h2 id="b1" data-i18n="b1">We don't wait for your success.</h2>
+        <p id="b2" data-i18n="b2">We invest in it.</p>
       </div>
       <div class="beat-b" id="b3">
-        <p>You don't need thousands of followers, industry connections or years of experience to get started.</p>
-        <p class="big">You need potential.<br><em>And the right people behind you.</em></p>
-        <p>ADUSTAR discovers and develops adult talent. We fund your launch and give you education, professional production, logistics and career management.</p>
+        <p data-i18n="p1">You don't need thousands of followers, industry connections or years of experience to get started.</p>
+        <p class="big" data-i18n="big">You need potential.<br><em>And the right people behind you.</em></p>
+        <p data-i18n="p3">ADUSTARS discovers and develops adult talent. We fund your launch and give you education, professional production, logistics and career management.</p>
       </div>
     </div>
   </div>
@@ -271,22 +276,33 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;paddin
   <div class="plate" id="plate" aria-hidden="true"><span id="plateText" class="empty">YOUR NAME</span></div>
   <div class="dscrim"></div>
   <div class="dpanel">
-    <h2>Your name belongs<br>on this door.</h2>
+    <h2 data-i18n="door">Your name belongs<br>on this door.</h2>
     <form id="notify" novalidate>
-      <label for="name">Name or stage name</label>
-      <input id="name" name="name" type="text" maxlength="24" autocomplete="nickname" placeholder="How should we call you?">
-      <label for="email">Email</label>
+      <label for="name" data-i18n="lname">Name or stage name</label>
+      <input id="name" name="name" type="text" maxlength="24" autocomplete="nickname" placeholder="How should we call you?" data-i18n-ph="phname">
+      <label for="email" data-i18n="lemail">Email</label>
       <input id="email" name="email" type="email" placeholder="you@email.com" autocomplete="email" required>
       <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
-      <button class="go" type="submit">PUT MY NAME ON THE DOOR</button>
+      <button class="go" type="submit" data-i18n="go">PUT MY NAME ON THE DOOR</button>
     </form>
-    <p class="note" id="note">Confidential. 18+ only.</p>
+    <p class="note" id="note" data-i18n="note">Confidential. 18+ only.</p>
     <p class="done" id="done" hidden></p>
   </div>
 </section>
 </main>
-<footer><span>© ADUSTAR</span><span>CONTACT@ADUSTARS.COM</span><span>BY ARTISTS. FOR ARTISTS.</span></footer>
+<footer><span>© ADUSTARS</span><span>CONTACT@ADUSTARS.COM</span><span data-i18n="tag">BY ARTISTS. FOR ARTISTS.</span></footer>
 
+<script>
+var I18N = {"en": {"soon": "COMING SOON · 18+", "hint": "WIPE THE MIRROR", "skip": "Skip", "cue": "ENTER THE SET", "fog": ["NOT ANOTHER", "PARASITE", "AGENCY."], "fogsr": "Not another parasite agency.", "lip1": "By artists.", "lip2": "For artists.", "b1": "We don't wait for your success.", "b2": "We invest in it.", "p1": "You don't need thousands of followers, industry connections or years of experience to get started.", "big": "You need potential.<br><em>And the right people behind you.</em>", "p3": "ADUSTARS discovers and develops adult talent. We fund your launch and give you education, professional production, logistics and career management.", "door": "Your name belongs<br>on this door.", "lname": "Name or stage name", "phname": "How should we call you?", "lemail": "Email", "go": "PUT MY NAME ON THE DOOR", "note": "Confidential. 18+ only.", "plate": "YOUR NAME", "bad": "Enter a valid email address so we can reach you.", "sending": "Sending…", "err": "We couldn’t send it right now. Try again, or write to contact@adustars.com.", "done1": "See you on set", "done2": ". We’ll call you.", "tag": "BY ARTISTS. FOR ARTISTS."}, "es": {"soon": "PRÓXIMAMENTE · +18", "hint": "LIMPIA EL ESPEJO", "skip": "Saltar", "cue": "ENTRA AL SET", "fog": ["NO SOMOS OTRA", "AGENCIA", "PARÁSITO."], "fogsr": "No somos otra agencia parásito.", "lip1": "Por artistas.", "lip2": "Para artistas.", "b1": "No esperamos a tu éxito.", "b2": "Invertimos en él.", "p1": "No necesitas miles de seguidores, contactos en la industria ni años de experiencia para empezar.", "big": "Necesitas potencial.<br><em>Y a las personas adecuadas detrás.</em>", "p3": "ADUSTARS descubre y desarrolla talento adulto. Financiamos tu lanzamiento y te damos formación, producción profesional, logística y gestión de carrera.", "door": "Tu nombre<br>va en esta puerta.", "lname": "Nombre o nombre artístico", "phname": "¿Cómo te llamamos?", "lemail": "Email", "go": "PON MI NOMBRE EN LA PUERTA", "note": "Confidencial. Solo mayores de 18.", "plate": "TU NOMBRE", "bad": "Escribe un email válido para que podamos contactarte.", "sending": "Enviando…", "err": "No hemos podido enviarlo. Inténtalo de nuevo o escribe a contact@adustars.com.", "done1": "Nos vemos en el set", "done2": ". Te llamaremos.", "tag": "POR ARTISTAS. PARA ARTISTAS."}, "fr": {"soon": "BIENTÔT · 18+", "hint": "ESSUIE LE MIROIR", "skip": "Passer", "cue": "ENTRE SUR LE PLATEAU", "fog": ["PAS UNE AGENCE", "PARASITE", "DE PLUS."], "fogsr": "Pas une agence parasite de plus.", "lip1": "Par des artistes.", "lip2": "Pour des artistes.", "b1": "Nous n'attendons pas ton succès.", "b2": "Nous investissons en lui.", "p1": "Pas besoin de milliers d'abonnés, de contacts dans l'industrie ni d'années d'expérience pour commencer.", "big": "Il te faut du potentiel.<br><em>Et les bonnes personnes derrière toi.</em>", "p3": "ADUSTARS découvre et développe des talents adultes. Nous finançons ton lancement et t'apportons formation, production professionnelle, logistique et gestion de carrière.", "door": "Ton nom<br>a sa place sur cette porte.", "lname": "Nom ou nom de scène", "phname": "Comment t'appeler ?", "lemail": "E-mail", "go": "METS MON NOM SUR LA PORTE", "note": "Confidentiel. 18+ uniquement.", "plate": "TON NOM", "bad": "Saisis une adresse e-mail valide pour qu'on puisse te joindre.", "sending": "Envoi…", "err": "Envoi impossible pour le moment. Réessaie ou écris à contact@adustars.com.", "done1": "On se voit sur le plateau", "done2": ". On t'appelle.", "tag": "PAR DES ARTISTES. POUR DES ARTISTES."}, "it": {"soon": "PROSSIMAMENTE · 18+", "hint": "PULISCI LO SPECCHIO", "skip": "Salta", "cue": "ENTRA SUL SET", "fog": ["NON L'ENNESIMA", "AGENZIA", "PARASSITA."], "fogsr": "Non l'ennesima agenzia parassita.", "lip1": "Da artisti.", "lip2": "Per artisti.", "b1": "Non aspettiamo il tuo successo.", "b2": "Ci investiamo.", "p1": "Non ti servono migliaia di follower, contatti nel settore o anni di esperienza per iniziare.", "big": "Ti serve potenziale.<br><em>E le persone giuste dietro di te.</em>", "p3": "ADUSTARS scopre e sviluppa talenti per adulti. Finanziamo il tuo lancio e ti offriamo formazione, produzione professionale, logistica e gestione della carriera.", "door": "Il tuo nome<br>va su questa porta.", "lname": "Nome o nome d'arte", "phname": "Come ti chiamiamo?", "lemail": "Email", "go": "METTI IL MIO NOME SULLA PORTA", "note": "Riservato. Solo 18+.", "plate": "IL TUO NOME", "bad": "Inserisci un indirizzo email valido per poterti contattare.", "sending": "Invio…", "err": "Non siamo riusciti a inviarlo. Riprova o scrivi a contact@adustars.com.", "done1": "Ci vediamo sul set", "done2": ". Ti chiameremo.", "tag": "DA ARTISTI. PER ARTISTI."}, "pt": {"soon": "EM BREVE · 18+", "hint": "LIMPE O ESPELHO", "skip": "Pular", "cue": "ENTRE NO SET", "fog": ["NÃO SOMOS MAIS", "UMA AGÊNCIA", "PARASITA."], "fogsr": "Não somos mais uma agência parasita.", "lip1": "Por artistas.", "lip2": "Para artistas.", "b1": "Não esperamos pelo seu sucesso.", "b2": "Investimos nele.", "p1": "Você não precisa de milhares de seguidores, contatos na indústria nem anos de experiência para começar.", "big": "Você precisa de potencial.<br><em>E das pessoas certas ao seu lado.</em>", "p3": "A ADUSTARS descobre e desenvolve talentos adultos. Financiamos o seu lançamento e oferecemos formação, produção profissional, logística e gestão de carreira.", "door": "O seu nome<br>pertence a esta porta.", "lname": "Nome ou nome artístico", "phname": "Como devemos te chamar?", "lemail": "Email", "go": "COLOQUE MEU NOME NA PORTA", "note": "Confidencial. Apenas maiores de 18.", "plate": "SEU NOME", "bad": "Digite um email válido para podermos falar com você.", "sending": "Enviando…", "err": "Não foi possível enviar agora. Tente de novo ou escreva para contact@adustars.com.", "done1": "Nos vemos no set", "done2": ". Vamos entrar em contato.", "tag": "POR ARTISTAS. PARA ARTISTAS."}, "ru": {"soon": "СКОРО · 18+", "hint": "ПРОТРИ ЗЕРКАЛО", "skip": "Пропустить", "cue": "ВОЙДИ НА ПЛОЩАДКУ", "fog": ["НЕ ОЧЕРЕДНОЕ", "АГЕНТСТВО-", "ПАРАЗИТ."], "fogsr": "Не очередное агентство-паразит.", "lip1": "От артистов.", "lip2": "Для артистов.", "b1": "Мы не ждём твоего успеха.", "b2": "Мы в него вкладываем.", "p1": "Чтобы начать, не нужны тысячи подписчиков, связи в индустрии или годы опыта.", "big": "Нужен потенциал.<br><em>И правильные люди рядом.</em>", "p3": "ADUSTARS находит и развивает таланты взрослой индустрии. Мы финансируем твой старт и даём обучение, профессиональное производство, логистику и управление карьерой.", "door": "Твоё имя<br>должно быть на этой двери.", "lname": "Имя или сценический псевдоним", "phname": "Как к тебе обращаться?", "lemail": "Эл. почта", "go": "МОЁ ИМЯ — НА ДВЕРЬ", "note": "Конфиденциально. Только 18+.", "plate": "ТВОЁ ИМЯ", "bad": "Введи действующий e-mail, чтобы мы могли с тобой связаться.", "sending": "Отправка…", "err": "Не удалось отправить. Попробуй ещё раз или напиши на contact@adustars.com.", "done1": "Увидимся на площадке", "done2": ". Мы тебе позвоним.", "tag": "ОТ АРТИСТОВ. ДЛЯ АРТИСТОВ."}};
+var LANGS = ['en','es','fr','it','pt','ru'];
+var lang = (function(){
+  try { var s = localStorage.getItem('adustars-lang'); if (s && LANGS.indexOf(s) > -1) return s; } catch (e) {}
+  var nav = (navigator.languages || [navigator.language || 'en']);
+  for (var i = 0; i < nav.length; i++){ var c = String(nav[i]).slice(0, 2).toLowerCase(); if (LANGS.indexOf(c) > -1) return c; }
+  return 'en';
+})();
+function tr(k){ return (I18N[lang] && I18N[lang][k] !== undefined) ? I18N[lang][k] : I18N.en[k]; }
+</script>
 <script>
 (function(){
   var root = document.documentElement;
@@ -427,12 +443,12 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;paddin
 
   // "Not another parasite agency." written with a finger in the condensation
   function writeFog(){
-    var lines = ['NOT ANOTHER', 'PARASITE', 'AGENCY.'];
+    var lines = tr('fog');
     var face = '700 ', fam = '"Amatic SC", "Arial Narrow", sans-serif';
     face = fam;
     ctx.font = '700 100px ' + face;
-    var wide = ctx.measureText(lines[0]).width / 100;
-    var css = Math.min(vh * 0.16, (vw * 0.86) / wide, 200);
+    var wide = Math.max.apply(null, lines.map(function(t){ return ctx.measureText(t).width; })) / 100;
+    var css = Math.min(vh * 0.16, (vw * 0.78) / wide, 200);
     var fs = css * dpr, lh = fs * 0.9;
     var tw = wide * css;
     var cxc = Math.max(tw / 2 + 12, Math.min(vw - tw / 2 - 12, mrect.x + mrect.w / 2));
@@ -566,7 +582,6 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;paddin
   layout(); lastW = vw;
   if (reduce){ reveal(true); }
   else {
-    if (window.matchMedia && matchMedia('(hover: hover)').matches) document.getElementById('hintText').textContent = 'WIPE THE MIRROR';
     paintFog();
     bg.addEventListener('load', function(){ layout(); if (!revealed && !touched) paintFog(); });
     if (document.fonts && document.fonts.load){
@@ -771,30 +786,55 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;paddin
   var nameIn = document.getElementById('name'), done = document.getElementById('done');
   nameIn.addEventListener('input', function(){
     var v = nameIn.value.replace(/\s+/g, ' ').trim();
-    plateText.textContent = v || 'YOUR NAME';
+    plateText.textContent = v || tr('plate');
     plateText.classList.toggle('empty', !v);
     fitPlate();
   });
   form.addEventListener('submit', function(e){
     e.preventDefault();
-    if (!email.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)){ note.textContent = 'Enter a valid email address so we can reach you.'; email.focus(); return; }
+    if (!email.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)){ note.textContent = tr('bad'); email.focus(); return; }
     var v = nameIn.value.replace(/\s+/g, ' ').trim();
     var btn = form.querySelector('button[type=submit]');
-    btn.disabled = true; note.textContent = 'Sending…';
+    btn.disabled = true; note.textContent = tr('sending');
     // registrations go to contact@adustars.com (FormSubmit, no backend needed)
     fetch('https://formsubmit.co/ajax/contact@adustars.com', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({ name: v || '(no name)', email: email.value.trim(), _subject: 'New ADUSTAR sign-up: ' + (v || email.value.trim()), _template: 'table', _captcha: 'false', _honey: form.querySelector('[name=_honey]').value })
+      body: JSON.stringify({ name: v || '(no name)', email: email.value.trim(), _subject: 'New ADUSTARS sign-up (' + lang.toUpperCase() + '): ' + (v || email.value.trim()), _template: 'table', _captcha: 'false', _honey: form.querySelector('[name=_honey]').value })
     }).then(function(r){ if (!r.ok) throw new Error('send'); return r.json(); }).then(function(){
-      done.textContent = 'See you on set' + (v ? ', ' + v : '') + '. We’ll call you.';
+      done.textContent = tr('done1') + (v ? ', ' + v : '') + tr('done2');
       done.hidden = false;
       door.classList.add('open');
     }).catch(function(){
       btn.disabled = false;
-      note.textContent = 'We couldn’t send it right now. Try again, or write to contact@adustars.com.';
+      note.textContent = tr('err');
     });
   });
+  // keep the lipstick inside the mirror whatever the language
+  var lipEl = document.getElementById('lip');
+  function fitLip(){
+    lipEl.style.fontSize = '';
+    var maxw = mrect.w * 0.95, w = lipEl.getBoundingClientRect().width;
+    if (w > maxw){ var fs = parseFloat(getComputedStyle(lipEl).fontSize); lipEl.style.fontSize = (fs * maxw / w) + 'px'; }
+  }
+  function applyLang(l){
+    lang = l;
+    try { localStorage.setItem('adustars-lang', l); } catch (e) {}
+    document.documentElement.lang = l;
+    [].forEach.call(document.querySelectorAll('[data-i18n]'), function(el){ el.innerHTML = tr(el.getAttribute('data-i18n')); });
+    [].forEach.call(document.querySelectorAll('[data-i18n-ph]'), function(el){ el.placeholder = tr(el.getAttribute('data-i18n-ph')); });
+    [].forEach.call(document.querySelectorAll('#langs button'), function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-lang') === l ? 'true' : 'false'); });
+    if (!nameIn.value.trim()) plateText.textContent = tr('plate');
+    fitPlate(); fitLip();
+    if (!revealed && !touched){
+      paintFog();
+      if (document.fonts && document.fonts.load) document.fonts.load('700 40px "Amatic SC"', tr('fog').join(' ')).then(function(){ if (!revealed && !touched) paintFog(); }).catch(function(){});
+    }
+  }
+  [].forEach.call(document.querySelectorAll('#langs button'), function(b){ b.addEventListener('click', function(){ applyLang(b.getAttribute('data-lang')); }); });
+  window.addEventListener('resize', function(){ setTimeout(fitLip, 150); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitLip);
+  applyLang(lang);
 })();
 </script>
 </body>
