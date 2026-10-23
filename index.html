@@ -781,8 +781,8 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;paddin
     var v = nameIn.value.replace(/\s+/g, ' ').trim();
     var btn = form.querySelector('button[type=submit]');
     btn.disabled = true; note.textContent = 'Sending…';
-    // registrations go to casting@adustars.com (FormSubmit, no backend needed)
-    fetch('https://formsubmit.co/ajax/casting@adustars.com', {
+    // registrations go to contact@adustars.com (FormSubmit, no backend needed)
+    fetch('https://formsubmit.co/ajax/contact@adustars.com', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({ name: v || '(no name)', email: email.value.trim(), _subject: 'New ADUSTAR sign-up: ' + (v || email.value.trim()), _template: 'table', _captcha: 'false', _honey: form.querySelector('[name=_honey]').value })
